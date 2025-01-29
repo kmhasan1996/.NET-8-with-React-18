@@ -10,6 +10,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyMethod()
+              .AllowAnyHeader()
+              .WithOrigins("http://localhost:5173");
+    });
+});
+
 var app = builder.Build();
 
 // Automatically create and apply migrations
@@ -44,8 +56,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+//app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
