@@ -75,6 +75,7 @@ function App() {
       setActivities([...activities.filter(x=>x.id !== id)]);
       setLoading(false);
       setSubmitting(false);
+      handleCancelSelectedActivity();
     })
 
     

@@ -24,12 +24,23 @@ export default function ActivityDashboard({activities,selectedActivity,selectAct
     return (
         <Grid>
             <GridColumn width='10'>
-                <ActivityList 
+                
+                {activities.length > 0 ?(
+                    <ActivityList 
                 activities={activities} 
                 selectActivity={selectActivity}
                 deleteActivity={deleteActivity}
                 submitting = {submitting}
                 />
+                ):(
+<div style={{backgroundColor:'white',padding:'10px 10px'}}>
+                <h4>No activity found</h4>
+                </div>
+                )}
+
+               
+               
+              
             </GridColumn>
             <GridColumn width='6'>
                 {selectedActivity && !editMode &&
@@ -37,6 +48,7 @@ export default function ActivityDashboard({activities,selectedActivity,selectAct
                 activity={selectedActivity} 
                 cancelSelectedActivity={cancelSelectedActivity} 
                 openForm = {openForm}
+                deleteActivity={deleteActivity}
                 />
                 }
 

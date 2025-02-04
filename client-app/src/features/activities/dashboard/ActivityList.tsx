@@ -32,6 +32,7 @@ export default function ActivityList({activities,selectActivity,deleteActivity,s
                                 </Item.Description>
                                 <Item.Extra>
                                     <Button onClick={()=> selectActivity(activity.id)} floated='right' content='View' color='blue'/>
+                                 
                                     <Button 
                                     name={activity.id}
                                     loading={submitting && target === activity.id} 
