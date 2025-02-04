@@ -5,14 +5,17 @@ import ActivityDashboard from '../../features/activities/dashboard/ActivityDashb
 import NavBar from './Navbar';
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
+import LoadingConponent from './LoadingComponent';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const[editMode,setEditMode] = useState(false);
+  const[loading,setLoading] = useState(true);
+  const[submitting,setSubmitting] = useState(false);
   
   useEffect(()=>{
-    agent.Acitivities.list().then(response=>{
+    agent.Activities.list().then(response=>{
       //console.log(response);
       let activities:Activity[]=[];
       response.forEach(activity => {
@@ -20,6 +23,7 @@ function App() {
         activities.push(activity);
       });
       setActivities(activities);
+      setLoading(false);
     })
 
   },[]);
@@ -42,16 +46,41 @@ function App() {
   }
 
   function handleCreateOrEditActivity(activity:Activity){
-    activity.id 
-    ? setActivities([...activities.filter(x=>x.id !== activity.id)])
-    :setActivities([...activities,{...activity,id:uuid()}])
-    setEditMode(false);
-    setSelectedActivity(activity);
+
+    setSubmitting(true);
+    if(activity.id){
+      agent.Activities.update(activity).then(()=>{
+        setActivities([...activities.filter(x=>x.id !== activity.id),activity]);
+
+        setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }else{
+      activity.id = uuid();
+      agent.Activities.create(activity).then(()=>{
+        setActivities([...activities,{...activity}])
+
+        setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }
   }
 
   function handleDeleteActivity(id:string){
-    setActivities([...activities.filter(x=>x.id !== id)])
+    setSubmitting(true);
+
+    agent.Activities.delete(id).then(()=>{
+      setActivities([...activities.filter(x=>x.id !== id)]);
+      setLoading(false);
+      setSubmitting(false);
+    })
+
+    
   }
+
+if(loading) return <LoadingConponent content='Loading...' />
 
   return (
     
@@ -68,6 +97,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEditActivity ={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
+          submitting = {submitting}
            />
         </Container>
       </>
