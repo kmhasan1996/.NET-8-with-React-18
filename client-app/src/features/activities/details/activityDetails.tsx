@@ -17,6 +17,9 @@ export default function ActivityDetails(){
       <CardDescription>
        {activity.description}
       </CardDescription>
+      <CardDescription>
+       {activity.city}, {activity.venue}
+      </CardDescription>
     </CardContent>
     <CardContent extra>
       <Button.Group widths='2'>

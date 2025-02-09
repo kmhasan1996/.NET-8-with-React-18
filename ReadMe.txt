@@ -6,3 +6,5 @@ npm install semantic-ui-react semantic-ui-css
 
 npm install uuid
 npm i --save-dev @types/uuid
+
+npm install mobx mobx-react-lite
