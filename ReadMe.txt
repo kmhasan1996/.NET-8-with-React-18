@@ -8,3 +8,5 @@ npm install uuid
 npm i --save-dev @types/uuid
 
 npm install mobx mobx-react-lite
+
+npm install react-router-dom@5.3.0 @types/react-router-dom@5.3.2
