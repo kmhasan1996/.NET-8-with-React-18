@@ -11,7 +11,7 @@ import LoadingConponent from "../../../app/layout/LoadingComponent";
 
 export default observer(function ActivityDashboard(){
      const{activityStore} = useStore();
-     const{activitiesByDate, selectedActivity,editMode}=activityStore;
+     const{activitiesByDate,}=activityStore;
    
      useEffect(()=>{
        activityStore.loadActivities();
@@ -38,15 +38,7 @@ export default observer(function ActivityDashboard(){
               
             </GridColumn>
             <GridColumn width='6'>
-                {selectedActivity && !editMode &&
-                <ActivityDetails  />
-                }
-
-                {
-                    editMode && 
-                    <ActivityForm  />
-                }
-                 
+               <h2>Activity Filters</h2>
             </GridColumn>
         </Grid>
     )
