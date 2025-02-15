@@ -1,5 +1,6 @@
 ﻿using Application.Activities;
 using Application.Core;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -11,8 +12,11 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,IConfiguration config)
         {
 
-       
-            services.AddControllers();
+
+            services.AddControllers().AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

@@ -30,8 +30,8 @@ export default observer( function ActivityForm(){
 
     function handleSubmit(){
        if(activity.id.length == 0){
-        let newActivity = {...activity,id:uuid()}
-        createActivity(newActivity).then(()=> history.push(`/activities/${newActivity.id}`));
+            let newActivity = {...activity,id:uuid()}
+            createActivity(newActivity).then(()=> history.push(`/activities/${newActivity.id}`));
         }
         else{
            
