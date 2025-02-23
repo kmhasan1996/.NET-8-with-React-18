@@ -1,13 +1,15 @@
-﻿using Application.Core;
+﻿using Application.Activities.DTOs;
+using Application.Core;
+using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
 
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
-    public class Create
+    public class CreateActivity
     {
         public class Command : IRequest<Result<Unit>>
         {
@@ -20,17 +22,17 @@ namespace Application.Activities
                 RuleFor(x => x.Activity).SetValidator(new ActivityValidator());
             }
         }
-        public class Handler : IRequestHandler<Command,Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Activities.Add(request.Activity);
-                var result =  await _context.SaveChangesAsync() > 0;
+                var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Faiuled to create activity");
                 return Result<Unit>.Success(Unit.Value);
             }

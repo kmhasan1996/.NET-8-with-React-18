@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
-    public class Delete
+    public class DeleteActivity
     {
         public class Command : IRequest<Result<Unit>>
         {
@@ -27,13 +27,13 @@ namespace Application.Activities
             {
                 var activity = await _context.Activities.FindAsync(request.Id);
 
-                if (activity == null) 
+                if (activity == null)
                 {
                     return null;
                 }
 
                 _context.Activities.Remove(activity);
-               var result =  await _context.SaveChangesAsync() > 0;
+                var result = await _context.SaveChangesAsync() > 0;
                 if (!result)
                 {
                     return Result<Unit>.Failure("Failed to delete the activity");

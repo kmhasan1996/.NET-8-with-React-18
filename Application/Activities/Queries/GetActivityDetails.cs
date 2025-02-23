@@ -8,15 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Activities
+namespace Application.Activities.Queries
 {
-    public class Details
+    public class GetActivityDetails
     {
         public class Query : IRequest<Result<Activity>>
         {
             public Guid Id { get; set; }
         }
-        public class Handler : IRequestHandler<Query,Result<Activity>>
+        public class Handler : IRequestHandler<Query, Result<Activity>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)

@@ -1,7 +1,10 @@
-﻿using Application.Activities;
+﻿using Application.Activities.Commands;
+using Application.Activities.Queries;
 using Application.Core;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -15,7 +18,7 @@ namespace API.Extensions
 
             services.AddControllers().AddFluentValidation(config =>
             {
-                config.RegisterValidatorsFromAssemblyContaining<Create>();
+                config.RegisterValidatorsFromAssemblyContaining<CreateActivity>();
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
@@ -33,8 +36,10 @@ namespace API.Extensions
                 });
             });
 
-            services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddMediatR(typeof(GetActivityList.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddFluentValidationAutoValidation();
+           // services.AddValidatorsFromAssemblyContaining<Create>();
 
             return services;
         }
