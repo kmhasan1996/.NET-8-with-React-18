@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { Activity } from '../models/activity';
 import { store } from '../stores/stores';
 import { history } from '../../main';
+import { User, UserFormValues } from '../models/user';
 //import {useHistory } from "react-router-dom";
 
 const sleep = (delay: number) => {
@@ -72,8 +73,15 @@ const Activities = {
     delete: (id: string) => requests.del<void>(`/activities/${id}`)
 }
 
+const Account = {
+    current: () => requests.get<User>('account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
 const agent = {
-    Activities
+    Activities,
+    Account
 }
 
 export default agent;
