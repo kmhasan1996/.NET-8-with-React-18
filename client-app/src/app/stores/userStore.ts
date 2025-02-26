@@ -40,7 +40,7 @@ export default class UserStore {
             runInAction(() => this.user = user);
            // router.navigate('/activities');
            history.push('/activities')
-           // store.modalStore.closeModal();
+           store.modalStore.closeModal();
         } catch (error) {
             throw error;
         }
@@ -49,6 +49,7 @@ export default class UserStore {
 
     logout = () => {
         store.commonStore.setToken(null);
+        window.localStorage.removeItem('jwt');
         this.user = null;
         //router.navigate('/');
         history.push('/')

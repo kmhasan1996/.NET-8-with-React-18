@@ -1,11 +1,12 @@
 //import React from "react";
-import { Grid, GridColumn } from "semantic-ui-react";
+import {  Grid, GridColumn } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { useStore } from "../../../app/stores/stores";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import LoadingConponent from "../../../app/layout/LoadingComponent";
 import ActivityFilters from "./ActivityFilters";
+
 
 
 export default observer(function ActivityDashboard(){
@@ -25,12 +26,12 @@ export default observer(function ActivityDashboard(){
     return (
         <Grid>
             <GridColumn width='11'>
-                
+              
                 {activitiesByDate.length > 0 ?(
                 <ActivityList/>
                 ):(
-<div style={{backgroundColor:'white',padding:'10px 10px'}}>
-                <h4>No activity found</h4>
+                <div style={{backgroundColor:'white',padding:'10px 10px'}}>
+                    <h4>No activity found</h4>
                 </div>
                 )}
 

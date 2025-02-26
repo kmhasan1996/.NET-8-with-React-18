@@ -70,7 +70,8 @@ namespace API.Controllers
             return BadRequest(result.Errors);
         }
 
-        [Authorize]
+       // [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {

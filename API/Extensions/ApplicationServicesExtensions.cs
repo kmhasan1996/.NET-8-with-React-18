@@ -38,7 +38,8 @@ namespace API.Extensions
                 {
                     policy.AllowAnyMethod()
                           .AllowAnyHeader()
-                          .WithOrigins("http://localhost:5173");
+                          .AllowAnyOrigin();
+                         // .WithOrigins("http://localhost:5173");
                 });
             });
 

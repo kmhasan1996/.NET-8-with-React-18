@@ -12,9 +12,16 @@ const sleep = (delay: number) => {
     })
 }
    //const history = useHistory();
-axios.defaults.baseURL = 'http://localhost:5000/api';
+//axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'https://reactivitiesapi-gkbabvedanb2c0aa.southeastasia-01.azurewebsites.net/api';
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 axios.interceptors.response.use(async response => {
     await sleep(1000);
@@ -74,7 +81,7 @@ const Activities = {
 }
 
 const Account = {
-    current: () => requests.get<User>('account'),
+    current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
     register: (user: UserFormValues) => requests.post<User>('/account/register', user)
 }
