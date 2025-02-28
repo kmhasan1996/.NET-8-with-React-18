@@ -14,8 +14,13 @@ namespace API.Extensions
         {
             services.AddIdentityCore<AppUser>(opt =>
             {
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.User.RequireUniqueEmail = true;
+                opt.Password.RequireDigit = false;                  // No numeric character required
+                opt.Password.RequiredLength = 4;                    // Minimum length of 4
+                opt.Password.RequireLowercase = false;              // No lowercase letter required
+                opt.Password.RequireUppercase = false;              // No uppercase letter required
+                opt.Password.RequireNonAlphanumeric = false;        // No special character required
+                opt.User.RequireUniqueEmail = true;                 // Ensures unique emails
+                
             })
             .AddEntityFrameworkStores<DataContext>();
 

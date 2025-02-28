@@ -14,7 +14,6 @@ export default observer( function HomePage(){
                     <Image size='massive' src='/assets/logo.png' alt='logo' style={{marginBottom: 12}} />
                     Reactivities
                 </Header>
-                <Header as='h2' inverted content='Welcome to Reactivities' />
                 
                 {userStore.isLoggedIn ? (
                     <>
@@ -25,6 +24,8 @@ export default observer( function HomePage(){
                     </>
                 ) : (
                     <>
+                    <Header as='h2' inverted content='Welcome to Reactivities' />
+                
                         <Button onClick={() => modalStore.openModal(<LoginForm />)} size='huge' inverted>
                             Login!
                         </Button>
