@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import {Button, Header, Item, Segment, Image} from 'semantic-ui-react'
+import {Button, Header, Item, Segment, Image, Label} from 'semantic-ui-react'
 import {Activity} from "../../../app/models/activity";
-import { Link, useHistory } from 'react-router-dom';
-import { useStore } from '../../../app/stores/stores';
+import { Link } from 'react-router-dom';
+//import { useStore } from '../../../app/stores/stores';
 import {format} from 'date-fns'
+import { useStore } from '../../../app/stores/stores';
 const activityImageStyle = {
     filter: 'brightness(30%)'
 };
@@ -20,19 +21,25 @@ interface Props {
 }
 export default observer (function ActivityDetailedHeader({activity}: Props) {
 
-    const history = useHistory();
-    const {activityStore}=useStore();
+    const {activityStore:{updateAttendace,cancelActivityToggle,loading}} = useStore();
 
-    function handleDelete(id:string){
-        try{
-             activityStore.deleteActivity(id).then(()=>history.push('/activities'))
-        }catch(error){
-            console.log(error);
-        }
-    }
+    // const history = useHistory();
+    // const {activityStore}=useStore();
+
+    // function handleDelete(id:string){
+    //     try{
+    //          activityStore.deleteActivity(id).then(()=>history.push('/activities'))
+    //     }catch(error){
+    //         console.log(error);
+    //     }
+    // }
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{padding: '0'}}>
+                {activity.isCancelled && 
+                    <Label style={{position:'absolute',zIndex:1000,left:-14,top:20}}
+                     ribbon color='red' content='Cancelled'></Label>
+                }
                 <Image src={`/assets/categoryImages/${activity.category}.jpg`} fluid style={activityImageStyle}/>
                 <Segment style={activityImageTextStyle} basic>
                     <Item.Group>
@@ -45,7 +52,7 @@ export default observer (function ActivityDetailedHeader({activity}: Props) {
                                 />
                                 <p>{format(activity.date!,'dd MMM yyyy h:mm aa' )}</p>
                                 <p>
-                                    Hosted by <strong>Bob</strong>
+                                    Hosted by <strong><Link to={`/profile/${activity.host?.username}`}>{activity.host?.displayName}</Link> </strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -53,17 +60,36 @@ export default observer (function ActivityDetailedHeader({activity}: Props) {
                 </Segment>
             </Segment>
             <Segment clearing attached='bottom'>
-                <Button color='teal'>Join Activity</Button>
-                <Button>Cancel Attendance</Button>
-                <Button 
+                {activity.isHost ?(
+<>
+
+                    <Button
+                        color={activity.isCancelled ? 'green' : 'red'}
+                        floated='left'
+                        basic
+                        content={activity.isCancelled ? 'Re-activate Activity' : 'Cancel Activity'}
+                        onClick={cancelActivityToggle}
+                        loading={loading}
+                    />
+
+                    <Button as={Link} disabled={activity.isCancelled} to={`/manage/${activity.id}`} color='orange' floated='right'>
+                    Manage Event
+                    </Button>
+                    </>
+                ): activity.isGoing ?(
+                    <Button loading={loading} onClick={updateAttendace}>Cancel Attendance</Button>
+                ):(
+                    <Button loading={loading} disabled={activity.isCancelled} onClick={updateAttendace} color='teal'>Join Activity</Button>
+                )}
+              
+               
+                {/* <Button 
                 loading={activityStore.loading}
                 onClick={()=>handleDelete(activity.id)}
                 color='red' floated='right'>
                     Delete
-                </Button>
-                <Button as={Link} to={`/manage/${activity.id}`} color='orange' floated='right'>
-                    Manage Event
-                </Button>
+                </Button> */}
+               
             </Segment>
         </Segment.Group>
     )
