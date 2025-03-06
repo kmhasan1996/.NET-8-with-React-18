@@ -5,9 +5,10 @@ import MyTextInput from "../../app/common/form/MyTextInput";
 import { useStore } from "../../app/stores/stores";
 import * as Yup from 'yup';
 import ValidationError from "../errors/ValidationError";
+import LoginForm from '../users/LoginForm';
 
 export default observer(function RegsiterForm() {
-    const { userStore } = useStore();
+    const { userStore,modalStore } = useStore();
     return (
         <Formik
             initialValues={{ displayName: '', username: '', email: '', password: '', error: null }}
@@ -35,6 +36,14 @@ export default observer(function RegsiterForm() {
                         positive content='Register' 
                         type="submit" fluid 
                     />
+                     <p>
+                     Already have an account? 
+                     <strong>
+                        <a style={{paddingLeft:'5px',cursor:'pointer'}} onClick={() => modalStore.openModal(<LoginForm />)} >
+                            Click here
+                        </a>
+                     </strong>
+                    </p>
                 </Form>
             )}
 

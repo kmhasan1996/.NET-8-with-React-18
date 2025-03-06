@@ -12,8 +12,8 @@ const sleep = (delay: number) => {
     })
 }
    //const history = useHistory();
-axios.defaults.baseURL = 'http://localhost:5000/api';
-//axios.defaults.baseURL = 'https://reactivitiesapi-gkbabvedanb2c0aa.southeastasia-01.azurewebsites.net/api';
+//axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'https://reactivities-api-c8c9g2d4adc0gmf8.southeastasia-01.azurewebsites.net/api';
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
